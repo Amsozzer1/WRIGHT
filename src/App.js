@@ -1,10 +1,10 @@
-import logo from './logo.svg';
+
 import './App.css';
 
 function App() {
   return (
-    <div className="App">
-      <h1>Do It Wright</h1>
+    <div >
+      <h1 className='text-3xl font-bold underline'>Do it Wright</h1>
     </div>
   );
 }
