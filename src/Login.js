@@ -5,6 +5,7 @@ import Googgle from "./icons8-google-60.png";
 import Github from "./icons8-github-50 (1).png"
 import Microsoft from "./icons8-microsoft-48.png"
 // import { GoogleAuthProvider } from "firebase/auth";
+import {app} from './firebase/config';
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { GithubAuthProvider } from "firebase/auth";
 import { OAuthProvider } from "firebase/auth";
