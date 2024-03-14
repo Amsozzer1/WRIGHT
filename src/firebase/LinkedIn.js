@@ -1,60 +1,70 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import {Button, TextField, Link, Paper, Grid, Typography } from '@mui/material';
+import LinkedIn from '../LinkedIn.png';
+const FacebookSDK = ({ appId, version }) => {
+  useEffect(() => {
+    window.fbAsyncInit = function() {
+      // eslint-disable-next-line no-undef
+      FB.init({
+        appId      : appId,
+        cookie     : true,
+        xfbml      : true,
+        version    : version
+      });
+      // eslint-disable-next-line no-undef
+      FB.AppEvents.logPageView();
+    };
 
-const LINKEDIN_CLIENT_SECRET = 'nuKNXDOY3O4wyeNz';
-const LINKEDIN_CLIENT_ID = '786lejjp9z5n84';
-const LINKEDIN_CALLBACK_URL = 'http://localhost:3000/auth/linkedin/callback';
-const linkedinOAuthURL = `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${LINKEDIN_CLIENT_ID}&redirect_uri=${encodeURIComponent(
-  LINKEDIN_CALLBACK_URL
-)}&scope=r_liteprofile%20r_emailaddress`;
+    // Load the SDK script
+    (function(d, s, id){
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) { return; }
+      js = d.createElement(s); js.id = id;
+      js.src = `https://connect.facebook.net/en_US/sdk.js`;
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+    
+  }, [appId, version]); // Empty array ensures this only runs once
 
-const LinkedInOAuth = () => {
-  const handleLogin = async (code) => {
-    // Exchange the code for an access token
-    const data = await fetch('https://www.linkedin.com/oauth/v2/accessToken', {
-      method: 'POST',
-      body: new URLSearchParams({
-        grant_type: 'authorization_code',
-        code,
-        redirect_uri: LINKEDIN_CALLBACK_URL,
-        client_id: LINKEDIN_CLIENT_ID,
-        client_secret: LINKEDIN_CLIENT_SECRET
-      })
-    }).then((response) => response.json());
-
-    const accessToken = data.access_token;
-
-    // Fetch the user's LinkedIn profile
-    const userProfile = await fetch(
-      'https://api.linkedin.com/v2/me?projection=(id,firstName,lastName)',
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`
-        }
+  return null; // This component doesn't render anything
+};
+export const FacebookLoginButton = () => {
+  const handleFBLogin = () => {
+    // Calling the FB.login method with the required options
+    window.FB.login(response => {
+      if (response.authResponse) {
+        console.log('Welcome! Fetching your information.... ');
+        // For example, getting the user's profile information
+        window.FB.api('/me', { fields: 'name, email' }, function(user) {
+          console.log(`Good to see you, ${user.name}.`);
+          // You can now use this information to log the user in to your app
+        });
+      } else {
+        console.log('User cancelled login or did not fully authorize.');
       }
-    );
-
-    // Handle the user profile data (e.g., store it in your database and log the user in)
-    console.log(
-      `Welcome, ${userProfile.data.firstName.localized.en_US} ${userProfile.data.lastName.localized.en_US}!`
-    );
+    }, {scope: 'email'}); // Add other permissions as needed
   };
-
-  const handleLinkedInCallback = () => {
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    const code = urlParams.get('code');
-    if (code) handleLogin(code);
-  };
-
-  React.useEffect(() => {
-    handleLinkedInCallback();
-  }, []);
 
   return (
+    // <button onClick={handleFBLogin}>Login with Facebook</button>
+    <Button 
+    onClick={handleFBLogin} 
+    variant="contained" sx={{fontSize:'15px',textShadow:'rgb(0, 0, 255)',justifyContent:'space-between',backgroundColor:'white',color:'black'}} fullWidth>
+              <img className = "h-7" src= {LinkedIn} alt="LinkedIn"/>
+              Continue with Facebook
+            </Button> 
+  );
+};
+const FACE = () => {
+  // Replace 'your-app-id' and 'vX.X' with your app's ID and the SDK version
+  return (
     <div>
-      <a href={linkedinOAuthURL}>Sign in with LinkedIn</a>
+      <FacebookSDK appId="434287805628862" version="v11.0" />
+      <FacebookLoginButton />
+
+      {/* ... rest of your app components */}
     </div>
   );
 };
 
-export default LinkedInOAuth;
+export default FACE;

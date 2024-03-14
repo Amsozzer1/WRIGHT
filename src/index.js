@@ -3,7 +3,10 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { loadFacebookSDK } from './facebook';
 
+// Replace 'your-app-id' with your Facebook App ID and 'vX.X' with the API version
+loadFacebookSDK('434287805628862', 'v11.0');
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>

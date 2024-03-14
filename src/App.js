@@ -7,6 +7,7 @@ import { SignUp } from './SignUp';
 import { Homepage } from './Homepage';
 import {CoursesEach} from './Courses_each';
 import CoursesPage from './COURSES';
+import FACE from './firebase/LinkedIn';
 import {
   createBrowserRouter,
   RouterProvider,
@@ -32,7 +33,11 @@ const router = createBrowserRouter([
   {
     path: '/courses/:course',
     element: <CoursesEach />,
-  }
+  },
+  {
+    path: '/facebook',
+    element: <FACE />,
+  },
 ]);
 function App() {
   return (

@@ -5,11 +5,15 @@ import Googgle from "./icons8-google-60.png";
 import Github from "./icons8-github-50 (1).png"
 import Microsoft from "./icons8-microsoft-48.png"
 // import { GoogleAuthProvider } from "firebase/auth";
-import { getAuth, signInWithPopup, GoogleAuthProvider, } from "firebase/auth";
-import {app} from './firebase/config'
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { GithubAuthProvider } from "firebase/auth";
 import { OAuthProvider } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
+
+
+import { FacebookAuthProvider } from "firebase/auth";
+
+const providerFace = new FacebookAuthProvider();
 let providerMi = new OAuthProvider('microsoft.com');
 providerMi.setCustomParameters({
   prompt: "consent",
@@ -86,6 +90,39 @@ export function SignIn() {
     // ...
   });
   }
+  const signInWithFacebook = () => {
+
+const auth = getAuth();
+signInWithPopup(auth, providerFace)
+  .then((result) => {
+    // The signed-in user info.
+    const user = result.user;
+    router('/');
+    // console.log("USER: ",user);
+    // This gives you a Facebook Access Token. You can use it to access the Facebook API.
+    const credential = FacebookAuthProvider.credentialFromResult(result);
+    const accessToken = credential.accessToken;
+
+    // IdP data available using getAdditionalUserInfo(result)
+    // ...
+  })
+  .catch((error) => {
+    // Handle Errors here.
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    // The email of the user's account used.
+    const email = error.customData.email;
+    // The AuthCredential type that was used.
+    const credential = FacebookAuthProvider.credentialFromError(error);
+    console.log("ERROR: ",error);
+    // ...
+  });
+}
+  const responseFacebook = (response) => {
+    console.log(response);
+  }
+  
+  
   let router = useNavigate();
   return (
     <Paper elevation={10} style={{ padding: 20, height: 'fit-content', width: 320, margin: "20px auto" }}>
@@ -113,7 +150,7 @@ export function SignIn() {
               <hr style={{ width: '45%', textAlign: 'left', marginLeft: 0 }}/>
             </div>
           </Typography>
-           <div className='flex flex-col gap-2 pb-10'>
+           <div className='flex flex-col gap-4 pb-10'>
             <Button variant="contained" sx={{fontSize:'15px',textShadow:'rgb(0, 0, 255)',justifyContent:'space-between',backgroundColor:'white',color:'black'}} fullWidth
             onClick={signInWithGoogle}
             >
@@ -123,14 +160,17 @@ export function SignIn() {
             <Button variant="contained" onClick={signInWithGithub}sx={{fontSize:'15px',textShadow:'rgb(0, 0, 255)',justifyContent:'space-between',backgroundColor:'white',color:'black'}} fullWidth>
               <img className = "h-7" src= {Github} alt="Github"/>
               Continue with Github</Button>
-            <Button onClick={signInWithMicrosoft}variant="contained" sx={{fontSize:'14px',textShadow:'rgb(0, 0, 255)',justifyContent:'space-between',backgroundColor:'white',color:'black'}} fullWidth>
+            {/* <Button onClick={signInWithMicrosoft}variant="contained" sx={{fontSize:'14px',textShadow:'rgb(0, 0, 255)',justifyContent:'space-between',backgroundColor:'white',color:'black'}} fullWidth>
               <img className = "h-7" src= {Microsoft} alt="Microsoft"/>
-              Continue with Microsoft</Button>
-            <Button variant="contained" sx={{fontSize:'15px',textShadow:'rgb(0, 0, 255)',justifyContent:'space-between',backgroundColor:'white',color:'black'}} fullWidth>
+              Continue with Microsoft</Button> */}
+            <Button 
+            onClick={signInWithFacebook}
+            variant="contained" sx={{fontSize:'15px',textShadow:'rgb(0, 0, 255)',justifyContent:'space-between',backgroundColor:'white',color:'black'}} fullWidth>
               <img className = "h-7" src= {LinkedIn} alt="LinkedIn"/>
-              Continue with LinkedIn
+              Continue with Facebook
             </Button>
-           </div>
+                   
+            </div>
 
         </Grid>
         {/* You can add the social media buttons here, similar to below */}
