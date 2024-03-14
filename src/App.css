@@ -1,38 +1,126 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.Menu{
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  justify-content: space-between;
+  background-color: #d9d9d9;
+  border-radius: 2%;
+  position: fixed;
+  width: 100%;
+  z-index: 100;
+}
+.Menu > .MenuBox{
+ 
+ margin-left: 40%;
+
+ 
+}
+.Menu > .LoginTitle{
+  background-color:teal;
+  text-align: center;
+  /* margin-right: 1%; */
+}
+@media screen and (max-width: 600px) and (min-width: 300px){
+  
+  .Menu > .MenuBox{
+    background-color:  blue;
+    margin-left: 20%;
+    margin-right: 20%;
+
+    
+   }
+}
+.BG{
+  clip-path: polygon(0 0, 100% 0, 100% 49%, 0% 100%);
+  height:'300px';
+  background-repeat: no-repeat;
+  background-size:cover;
+  background-attachment: fixed;
+  background-position:bottom; 
+  
+}
+.courseButton {
+  font-size: 1rem;
+  min-width: 100px;
+  color: black;
+  border-bottom: 1px solid black;
+  border-radius: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.courseButton::after {
+  content: '';
+  position: absolute;
+  left: 50%; /* Adjust this value to change how much of the border is shown */
+  transform: translateX(-50%);
+  bottom: 0;
+  width: 80%; /* Adjust this value to set the width of your border */
+  height: 1px;
+  background-color: black;
+}
+.courseButton::after:nth-child(3){
+  content: '';
+  position: absolute;
+  left: 50%; /* Adjust this value to change how much of the border is shown */
+  transform: translateX(-50%);
+  bottom: 0;
+  width: 80%; /* Adjust this value to set the width of your border */
+  height: 1px;
+  /* background-color: white; */
+  background-color: white;
+  
+
+}
+.CoursesContainer {
+  text-align: center;
+  position: relative;
+  height:100%;
+  padding-bottom: -5rem;
+
+  
+  
+  /* margin: 20px; */
+
+}
+
+.CoursesGrid {
+  display: flex;
+ 
+
+
+  
+  gap: 32px;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  align-items: center; /* Align items to the start of the grid area */
+  align-content: center;
+  /* center the grid */
+  flex-grow: 1;
+  padding: 20px;
 }
 
-.App-link {
-  color: #61dafb;
+
+.CourseCard {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease-in-out;
+  
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.CourseCard:hover {
+  transform: translateY(-5px);
+}
+
+.CourseImage {
+ aspect-ratio: 16 / 9;
+  height: 230px;
+  object-fit: cover; /* Cover the whole area, might crop the image */
+  
+}
+
+.CourseTitle {
+  padding: 10px;
+  background-color: #f5f5f5;
+  font-size: 1rem;
+  font-weight: bold;
 }
