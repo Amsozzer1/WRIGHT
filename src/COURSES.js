@@ -57,7 +57,7 @@ function Courses() {
             ['Physics', {image: 'https://lh3.googleusercontent.com/drive-viewer/AKGpihZSoUtz2xPesTOzIFKQnWXJ8MLdzEVBenGmLBPO2ZP7pHeH-rfxKcsQczDVTCjTEieC-SH7O9fHmRtmXiQlhZzk59bK6g=s1600'}], 
             ['Math', {image: 'https://lh3.googleusercontent.com/drive-viewer/AKGpihbMYPUE9aO6n47cd-MYOuDfEexMCQ8DYRU1t2zSAWX-Q2nLtOlAsueJ23UZKXnzTSdKPDDNJV5jV4uTfsRPFv2la4yiWA=s1600'}],
             ['Chemistry', {image: 'https://lh3.googleusercontent.com/drive-viewer/AKGpihaN8P7DDhtVzNN1FD2wAaXJbyk6suLIQmuZjhEzy3n-gsosGZSSY6684y191kkasQpeGqmuBjlPzTvw-9b5hYDKNdVDSQ=s1600'}],
-            ['Computer Science', {image: 'https://lh3.googleusercontent.com/drive-viewer/AKGpihY5Y7BM9qW5A71Gu10l6zEXKPX6hbjxEc312aQKn6qZH6OTSQbUc6zT9zwsY6IvGsJIsQ3oCBo6it05qO5nvr7Zhd3F9g=s1600'}],
+            ['Computer_Science', {image: 'https://lh3.googleusercontent.com/drive-viewer/AKGpihY5Y7BM9qW5A71Gu10l6zEXKPX6hbjxEc312aQKn6qZH6OTSQbUc6zT9zwsY6IvGsJIsQ3oCBo6it05qO5nvr7Zhd3F9g=s1600'}],
     
     ]);
     
