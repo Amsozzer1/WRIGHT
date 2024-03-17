@@ -1,14 +1,13 @@
 
 import './App.css';
 import * as React from 'react';
-// import AccountMenu from './MENU' ;
 import { SignIn } from './Login';
 import { SignUp } from './SignUp';
 import { Homepage } from './Homepage';
 import {CoursesEach} from './Courses_each';
 import CoursesPage from './COURSES';
-import FACE from './firebase/LinkedIn';
 import LessonPage from './LessonPage';
+import EachLesson from './EachLesson';
 import {
   createBrowserRouter,
   RouterProvider,
@@ -36,9 +35,13 @@ const router = createBrowserRouter([
     element: <CoursesEach />,
   },
   {
-    path: '/lesson',
+    path: '/:course/:lessonid',
     element: <LessonPage />,
   },
+  {
+    path: '/:course/:lessonid/:chapterid',
+    element: <EachLesson />,
+  }
 
 ]);
 function App() {

@@ -15,9 +15,13 @@ export function Homepage() {
   return (
     <div>
         <Menu />
-        <Box component="header" className="BG"sx={{ backgroundImage: `url(${Uni})`, height:'550px'}}>
+        <div className='pt-11'>
+        <Box component="header" className="BG"sx={{ backgroundImage: `url(${Uni})`, height:'550px',
+          borderBottom: '5px solid teal',
+      }}>
          
         </Box>
+        </div>
         <Container >
         
         

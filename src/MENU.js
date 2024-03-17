@@ -9,7 +9,7 @@ import { getAuth, onAuthStateChanged,signOut } from "firebase/auth";
 
 import './App.css';
 function DropDown(){
-  let [Course, setCourse] = React.useState(['Math', 'Physics', 'Chemistry', 'Computer Science']);
+  let Course =['Calculus', 'Physics', 'Chemistry', 'Computer Science'];
   let [courseSelected, setCourseSelected] = React.useState(null);
   let navigate = useNavigate();
   function handleCourseSelected(course) {
@@ -33,7 +33,7 @@ function DropDown(){
 
 }
 function DropDownUser(){
-  let [Array, setUser] = React.useState(['Profile', 'Settings', 'Sign Out']);
+  let Array = ['Profile', 'Settings', 'Sign Out'];
   function handleSignOut(){
     let auth = getAuth();
     signOut(auth).then(() => {
@@ -101,6 +101,7 @@ export default function AccountMenu() {
   React.useEffect(() => {
     authStateChange();
     
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
   const handleClick = (event) => {
     setAnchorEl(!anchorEl);
