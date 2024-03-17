@@ -6,6 +6,7 @@ import Alert from '@mui/material/Alert';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import { useNavigate } from "react-router-dom";
+import {updateProfileName} from './firebase/functions';
 // Initialize the Firebase Auth instance with your app
 const auth = getAuth(app);
 export default function SimpleAlert({severity, message, Icon}) {
@@ -24,6 +25,7 @@ export function SignUp() {
   let [success, setSuccess] = React.useState(false);
   let [showAlert, setShowAlert] = React.useState(false);
   let [message, setMessage] = React.useState('');
+  let [nickname, setNickname] = React.useState('');
   function isValidEmail(email) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
@@ -70,7 +72,10 @@ export function SignUp() {
         // Signed up
         const user = userCredential.user;
         setMessage('Account created successfully');
+        
         console.log(user);
+        updateProfileName(nickname,'https://png.pngtree.com/png-clipart/20210915/ourmid/pngtree-user-avatar-login-interface-abstract-blue-icon-png-image_3917504.jpg')
+        router('/');
         setSuccess(true); 
       })
       .catch((error) => {
@@ -96,6 +101,7 @@ export function SignUp() {
         </Grid>
         <Grid item>
           <div className='flex flex-col gap-5'>
+            <TextField label="nickname" onChange={(e) => setNickname(e.target.value)} placeholder="Enter nickname" fullWidth required />
             <TextField label="Email address" onChange={(e) => setEmail(e.target.value)} placeholder="Enter email" fullWidth required />
             <TextField label="Password" onChange={(e) => setPassword(e.target.value)} placeholder="Enter password" type="password" fullWidth required />
             <TextField label="Re Enter Password" onChange={(e) => setPassword2(e.target.value)} placeholder="Re-enter password" type="password" fullWidth required />

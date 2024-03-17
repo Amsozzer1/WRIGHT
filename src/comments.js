@@ -10,7 +10,6 @@ import { Button } from "@mui/material";
 // ];
 function Reply ({ replies,comment, img, author
   ,course,lessonid,chapterid,commentID }){
-    console.log('COMMENTS',comment);
 
 
 
@@ -33,8 +32,6 @@ function Reply ({ replies,comment, img, author
   </div>
 );}
 function Comment ({ comment,course,lessonid,chapterid,commentID,img, author,text}) { 
-  console.log('commentID',comment[1]);
-  console.log('text',text);
   const [replies, setReplies] = useState([]);
   let [ShowReplies, setShowReplies] = useState(false);
   let [posted, setPosted] = useState(false);
@@ -64,7 +61,6 @@ function Comment ({ comment,course,lessonid,chapterid,commentID,img, author,text
     
       setReplies([]);
     getRepliesHelper(commentID);
-    // console.log('replies HERE ',replies);
   }
   React.useEffect(() => {
     if(posted===true){
@@ -73,17 +69,21 @@ function Comment ({ comment,course,lessonid,chapterid,commentID,img, author,text
       getRepliesHelper(commentID);
       setPosted(false);
     }
-  }, [posted]);
+  }, [ posted]);
+
   return(
   
   <div className="comment">
    <div>
     <div className='flex flex-row gap-4'
     style={{alignContent:'center', alignItems:'center'}}>
-    <img src={img} alt="user" style={{marginRight:'10px',width:'40px', height:'40px', borderRadius:'50%'}}/>
-    <h5 className="comment-author">{author}</h5>
+    <img src={comment[1] ? comment[1].img : null} alt="user" style={{marginRight:'10px',width:'40px', height:'40px', borderRadius:'50%'}}/>
+    <h5 className="comment-author">{comment[1] ? comment[1].author : null}</h5>
     </div>
-    <p className="comment-text pl-16">{text||comment[1].text}</p>
+    <p className="comment-text pl-16">
+      {comment[1] ? comment[1].text : null}
+    </p>
+
    </div>
     {ShowReplies? 
     <div>
@@ -96,7 +96,7 @@ function Comment ({ comment,course,lessonid,chapterid,commentID,img, author,text
         comment={comment}course={course}lessonid={lessonid}chapterid={chapterid}commentID={commentID}img={img} author={author}
         />
         <form className='flex flex-row items-center space-x-2 bg-white p-2 rounded-lg' onSubmit={handlePost}>
-          <input type="text" value={reply} onChange={(e) => setRepy(e.target.value)} placeholder="Reply" className='flex-1 p-2 rounded-md border-2 border-gray-300 focus:border-blue-500 focus:outline-none INPUT' />
+          <input required type="text" value={reply} onChange={(e) => setRepy(e.target.value)} placeholder="Reply" className='flex-1 p-2 rounded-md border-2 border-gray-300 focus:border-blue-500 focus:outline-none INPUT' />
           <button type='submit' className='p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600'>
             <SendIcon/>
           </button>
@@ -108,38 +108,6 @@ function Comment ({ comment,course,lessonid,chapterid,commentID,img, author,text
   </div>
 );}
 
-const CommentForm = ({author,img, addComment }) => {
-  const [text, setText] = useState('');
-  const [posted, setPosted] = useState(false);
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    addComment({ author, text, img, date: new Date().toISOString()});
-    setText('');
-    setPosted(!posted);
-  };
-  let photoURL = img ? img : null;
-  return (
-    <form className="comment-form" onSubmit={handleSubmit}>
-      <div className='flex flex-row' >
-      <img src={photoURL||null} alt="user" style={{marginRight:'10px',width:'40px', height:'40px', borderRadius:'50%'}}/>
-
-      <textarea
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-        placeholder="Your comment"
-        required
-        style={{width:'60vw',height:'40px',borderRadius:'5px',border:'1px solid #d1d1d1',padding:'10px'}}
-      />
-     
-        <button type="submit" className='p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 'style={{marginLeft:'10px',maxWidth:'40px'}}>
-            <SendIcon/>
-          </button>
-      </div>
-      
-    </form>
-  );
-};
 
 const CommentsSection = ({course,lessonid,chapterid}) => {
   const [User, setUser] = useState(null);
@@ -170,7 +138,6 @@ const CommentsSection = ({course,lessonid,chapterid}) => {
 
 
   const addComment = (comment) => {
-    // In a real app, you'd also want to save this to a server
     setComments([...comments, { ...comment, id: Date.now() }]);
     postComment(comment,img,author,course,lessonid,chapterid)
     .then((docRef) => {
@@ -200,7 +167,18 @@ React.useEffect(() => {
     // getRepliesHelper(commentID);
     setRendered(true);
   }
-}, [chapterid, course, lessonid, rendered]);
+}, [chapterid, course, lessonid, rendered,comments]);
+const [text, setText] = useState('');
+  const [posted, setPosted] = useState(false);
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    addComment({ author, text, img, date: new Date().toISOString()});
+    setRendered(false);
+    setText('');
+    setPosted(!posted);
+  };
+  let photoURL = img ? img : null;
   return (
     <div className="comments-section w-full"
     
@@ -218,17 +196,29 @@ React.useEffect(() => {
           <Comment  
         course={course} lessonid={lessonid} chapterid={chapterid}
         key={comment[0]} comment={comment} 
-        commentID={comment[0]} img={img} author={author} text={comment[1].text}
+        commentID={comment[0]} img={img} author={author} 
         />
        
         </div>
       ))}
-      <CommentForm
-      course={course} lessonid={lessonid} chapterid={chapterid}
-       img ={img} author={author} addComment={addComment} 
-       
-      //  commentID={commen}
-       />
+      <form className="comment-form" onSubmit={handleSubmit}>
+      <div className='flex flex-row' >
+      <img src={photoURL||null} alt="user" style={{marginRight:'10px',width:'40px', height:'40px', borderRadius:'50%'}}/>
+
+      <textarea
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+        placeholder="Your comment"
+        required
+        style={{width:'60vw',height:'40px',borderRadius:'5px',border:'1px solid #d1d1d1',padding:'10px'}}
+      />
+     
+        <button type="submit" className='p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 'style={{marginLeft:'10px',maxWidth:'40px'}}>
+            <SendIcon/>
+          </button>
+      </div>
+      
+    </form>
       </div>
       
     </div>

@@ -9,7 +9,7 @@ import { getAuth, onAuthStateChanged,signOut } from "firebase/auth";
 
 import './App.css';
 function DropDown(){
-  let Course =['Calculus', 'Physics', 'Chemistry', 'Computer Science'];
+  let Course =[[1,'Calculus'], [2,'Physics'], [3,'Chemistry'], [4,'Computer Science']];
   let [courseSelected, setCourseSelected] = React.useState(null);
   let navigate = useNavigate();
   function handleCourseSelected(course) {
@@ -22,8 +22,8 @@ function DropDown(){
     style={{top:'3rem'}}>
       {Course.map((course) => {
         return (
-        <Button onClick={()=>{handleCourseSelected(course);}} key={course} className='text-6xl courseButton' sx={{fontSize:'1rem', minWidth: 100,color:'black'}}>
-          {course}
+        <Button onClick={()=>{handleCourseSelected(course[1]);}} key={course[0]} className='text-6xl courseButton' sx={{fontSize:'1rem', minWidth: 100,color:'black'}}>
+          {course[1]}
         </Button>
         )
       })}

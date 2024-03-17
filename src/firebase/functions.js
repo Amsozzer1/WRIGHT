@@ -1,7 +1,8 @@
 import { collection, getDoc,doc,getDocs,addDoc } from "firebase/firestore"; 
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { getAuth, onAuthStateChanged,updateProfile } from 'firebase/auth';
 import { db } from './config';
-import { useState } from "react";
+
+
 
 export async function postComment(comment, img, author
     ,course,lessonid,chapter
@@ -49,9 +50,6 @@ export async function getReplies(course,lessonid,chapterid,commentID){
 export async function postReply(comment
     ,course,lessonid,chapterid,commentID
     ) {
-        // let text = comment.text;
-        // let img = comment.img;
-        // let author = comment.author;
     try {
         const docRef = addDoc(collection(db, `/courses/${course}/SubCourse/${lessonid}/${chapterid}/${chapterid}/Comments/${commentID}/replies`), comment);
         return docRef.id;
@@ -130,6 +128,17 @@ export function authStateChange(callback) {
         console.log('No user');
         callback(null);
       }
+    });
+  }
+
+export function updateProfileName(name,image=null) {
+    updateProfile(auth.currentUser, {
+      displayName: name,
+        photoURL: image
+    }).then(() => {
+      console.log('Profile updated');
+    }).catch((error) => {
+      console.log(error);
     });
   }
   
